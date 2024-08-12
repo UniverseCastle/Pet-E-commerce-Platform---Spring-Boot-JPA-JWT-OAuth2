@@ -9,6 +9,8 @@ import project.shop.domain.member.dto.MemberInfoDto;
 import project.shop.domain.member.dto.MemberSignUpDto;
 import project.shop.domain.member.dto.MemberUpdateDto;
 import project.shop.domain.member.entity.Member;
+import project.shop.domain.member.exception.MemberException;
+import project.shop.domain.member.exception.MemberExceptionType;
 import project.shop.domain.member.repository.MemberRepository;
 
 @Service
@@ -21,10 +23,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	
-	
 	@Override // 회원가입
 	public void signUp(MemberSignUpDto memberSignUpDto) throws Exception {
+		
 		Member member = memberSignUpDto.toEntity(); // 빌더패턴으로 회원객체에 저장
 		
 		member.addUserAuthority(); // entity로 변환 후 USER 권한 부여
@@ -32,10 +33,10 @@ public class MemberServiceImpl implements MemberService {
 		
 		// 중복검사
 		if (memberRepository.findByEmail(memberSignUpDto.email()).isPresent()) {
-			throw new Exception("이미 존재하는 아이디 입니다."); // TODO: 예외처리 만들기
+			throw new MemberException(MemberExceptionType.ALREADY_EXIST_EMAIL);
 		}
 		if (memberRepository.findByNickName(memberSignUpDto.nickName()).isPresent()) {
-			throw new Exception("이미 존재하는 닉네임 입니다.");
+			throw new MemberException(MemberExceptionType.ALREADY_EXIST_NICKNAME);
 		}
 		
 		memberRepository.save(member);

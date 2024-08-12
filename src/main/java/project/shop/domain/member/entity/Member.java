@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.shop.common.entity.BaseTimeEntity;
 import project.shop.domain.member.enums.Role;
 import project.shop.domain.member.enums.SocialType;
 
@@ -24,7 +25,7 @@ import project.shop.domain.member.enums.SocialType;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Member {
+public class Member extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

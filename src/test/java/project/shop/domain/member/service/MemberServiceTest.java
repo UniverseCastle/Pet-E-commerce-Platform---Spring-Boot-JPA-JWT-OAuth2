@@ -1,6 +1,7 @@
 package project.shop.domain.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,8 @@ import jakarta.persistence.EntityManager;
 import project.shop.domain.member.dto.MemberSignUpDto;
 import project.shop.domain.member.entity.Member;
 import project.shop.domain.member.enums.Role;
+import project.shop.domain.member.exception.MemberException;
+import project.shop.domain.member.exception.MemberExceptionType;
 import project.shop.domain.member.repository.MemberRepository;
 
 @SpringBootTest
@@ -73,6 +76,8 @@ class MemberServiceTest {
 		SecurityContextHolder.createEmptyContext().setAuthentication(null);
 	}
 	
+	//== TEST ==//
+	
 //	@Test
 	public void signUp() throws Exception {
 		// given
@@ -83,7 +88,7 @@ class MemberServiceTest {
 		clear();
 		
 		// then
-		Member member = memberRepository.findByEmail(memberSignUpDto.email()).orElseThrow(() -> new Exception());
+		Member member = memberRepository.findByEmail(memberSignUpDto.email()).orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 		
 		assertThat(member.getId()).isNotNull();
 		assertThat(member.getEmail()).isEqualTo(memberSignUpDto.email());
@@ -91,5 +96,33 @@ class MemberServiceTest {
 		assertThat(member.getNickName()).isEqualTo(memberSignUpDto.nickName());
 		assertThat(member.getAge()).isEqualTo(memberSignUpDto.age());
 		assertThat(member.getRole()).isSameAs(Role.USER);
+	}
+	
+//	@Test
+	public void 아이디중복() throws Exception {
+		// given
+		MemberSignUpDto memberSignUpDto = makeMemberSignUpDto();
+		memberService.signUp(memberSignUpDto);
+		
+		clear();
+		
+		// when, then
+		assertThat(assertThrows(MemberException.class, () ->
+				memberService.signUp(memberSignUpDto)).getExceptionType()).isEqualTo(MemberExceptionType.ALREADY_EXIST_EMAIL);
+	}
+	
+//	@Test
+	public void 닉네임중복() throws Exception {
+		// given
+		MemberSignUpDto memberSignUpDto = makeMemberSignUpDto();
+		memberService.signUp(memberSignUpDto);
+		
+		clear();
+		
+		// when, then
+		MemberSignUpDto memberSignUpDto2 = new MemberSignUpDto("boot@gmail.com", PASSWORD, "name", "nickName", 20);
+		
+		assertThat(assertThrows(MemberException.class, () ->
+				memberService.signUp(memberSignUpDto2)).getExceptionType()).isEqualTo(MemberExceptionType.ALREADY_EXIST_NICKNAME);
 	}
 }
