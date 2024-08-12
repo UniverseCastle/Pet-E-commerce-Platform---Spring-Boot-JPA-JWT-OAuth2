@@ -1,0 +1,83 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.2'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+}
+
+group = 'project.shop'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	// p6spy 적용
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
+	
+	// jwt
+	implementation 'com.auth0:java-jwt:4.4.0'
+	
+	// QueryDSL
+	implementation "com.querydsl:querydsl-core:5.0.0" //== 최종 ==//
+	implementation "com.querydsl:querydsl-collections" //== 최종 ==//
+	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta") //== 최종 ==//
+	
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta" //== 최종 ==//
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api' //== 최종 ==//
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api:3.1.0" //== 최종 ==//
+	
+	testImplementation ('org.springframework.boot:spring-boot-starter-test') //== 최종 ==//
+	testImplementation 'jakarta.persistence:jakarta.persistence-api' //== 최종 ==//
+	testImplementation 'com.querydsl:querydsl-jpa:5.0.0' //== 최종 ==//
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+//== QueryDSL 추가 시작 ==//
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main.java.srcDir querydslDir
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+
+//== QueryDSL 추가 끝 ==//
