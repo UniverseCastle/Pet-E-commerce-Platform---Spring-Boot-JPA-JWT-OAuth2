@@ -81,6 +81,8 @@ public class Member extends BaseTimeEntity {
 		this.age = age;
 	}
 	
+	
+	
 	//== 리프레시 토큰 ==//
 	public void updateRefreshToken(String refreshToken) { // 리프레시 토큰 갱신
 		this.refreshToken = refreshToken;
