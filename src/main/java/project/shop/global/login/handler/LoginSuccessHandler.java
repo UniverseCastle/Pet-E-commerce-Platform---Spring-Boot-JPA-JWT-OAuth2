@@ -29,7 +29,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 										Authentication authentication) throws IOException, ServletException {
 		
-		String email = extractUsername(authentication); // 인증 정보에서 Username(email) 추출
+		String email = extractEmail(authentication); // 인증 정보에서 Username(email) 추출
 		String accessToken = jwtService.createAccessToken(email); // JwtService의 create 메서드를 사용해 AccessToken 발급
 		String refreshToken = jwtService.createRefreshToken(); // JwtService의 create 메서드를 사용해 RefreshToken 발급
 		
@@ -47,7 +47,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	
 	
 	
-	private String extractUsername(Authentication authentication) {
+	private String extractEmail(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
 		return userDetails.getUsername();

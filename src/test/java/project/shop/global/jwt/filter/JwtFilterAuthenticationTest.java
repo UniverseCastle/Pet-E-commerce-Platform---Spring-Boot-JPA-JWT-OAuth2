@@ -84,13 +84,20 @@ class JwtFilterAuthenticationTest {
 
 	@BeforeEach
 	private void init(){
-		memberRepository.save(Member.builder().email(EMAIL).password(delegatingPasswordEncoder.encode(PASSWORD)).name("Member1").nickName("NickName1").role(Role.USER).age(22).build());
+		memberRepository.save(Member.builder()
+				.email(EMAIL)
+				.password(delegatingPasswordEncoder.encode(PASSWORD))
+				.name("Member1")
+				.nickName("NickName1")
+				.role(Role.USER)
+				.age(22)
+				.build());
 		clear();
 	}
 
 
 
-	private Map getUsernamePasswordMap(String email, String password){
+	private Map getEmailPasswordMap(String email, String password){
 		Map<String, String> map = new HashMap<>();
 		map.put(KEY_EMAIL, email);
 		map.put(KEY_PASSWORD, password);
@@ -100,7 +107,7 @@ class JwtFilterAuthenticationTest {
 
 	private Map getAccessAndRefreshToken() throws Exception {
 	
-		Map<String, String> map = getUsernamePasswordMap(EMAIL, PASSWORD);
+		Map<String, String> map = getEmailPasswordMap(EMAIL, PASSWORD);
 		
 		System.out.println("========================================================Request Data: " + map);
 		
@@ -113,17 +120,9 @@ class JwtFilterAuthenticationTest {
 		String accessToken = result.getResponse().getHeader(accessHeader);
 		String refreshToken = result.getResponse().getHeader(refreshHeader);
 		
-		System.out.println("엑세스헤더?+++++++++++==================="+accessHeader);
-		System.out.println("리프레시헤더?+++++++++++==================="+refreshHeader);
-		
-		
-		
 		Map<String, String> tokenMap = new HashMap<>();
 		tokenMap.put(accessHeader,accessToken);
 		tokenMap.put(refreshHeader,refreshToken);
-		
-		System.out.println("엑세스토큰?+++++++++++==================="+accessToken);
-		System.out.println("리프레시토큰?+++++++++++==================="+refreshToken);
 		
 		return tokenMap;
 	}
@@ -154,18 +153,15 @@ class JwtFilterAuthenticationTest {
 	 */
 	@Test
 	public void AccessToken만_보내서_인증() throws Exception {
-		// given
-		Map accessAndRefreshToken = getAccessAndRefreshToken();
-		String accessToken = (String)accessAndRefreshToken.get(accessHeader); // KEY
-		
-		System.out.println("이건뭐임그럼??? ========================="+accessAndRefreshToken.get(accessHeader));
-		
-		// when, then
-		mockMvc.perform(
-				get(LOGIN_URL + "123")
-					.header(accessHeader, BEARER + accessToken) // login이 아닌 다른 임의의 주소
-		).andExpectAll(status().isNotFound()); // 없는 주소로 보냈으므로 NotFound
-	}
+        //given
+        Map accessAndRefreshToken = getAccessAndRefreshToken();
+        String accessToken= (String) accessAndRefreshToken.get(accessHeader);
+
+        //when, then
+        mockMvc.perform(get(LOGIN_URL+"123") //login이 아닌 다른 임의의 주소
+        		.header(accessHeader,BEARER+ accessToken))
+                .andExpectAll(status().isNotFound());//없는 주소로 보냈으므로 NotFound
+    }
 	
 	
 	

@@ -23,7 +23,14 @@ import project.shop.global.login.filter.CustomJsonUsernamePasswordAuthentication
 import project.shop.global.login.handler.LoginFailureHandler;
 import project.shop.global.login.handler.LoginSuccessHandler;
 import project.shop.global.login.service.LoginService;
+import project.shop.global.oauth2.handler.OAuth2LoginFailureHandler;
+import project.shop.global.oauth2.handler.OAuth2LoginSuccessHandler;
+import project.shop.global.oauth2.service.CustomOAuth2UserService;
 
+/**
+ * 인증은 CustomJsonUsernamePasswordAuthenticationFilter에서 authenticate()로 인증된 사용자로 처리
+ * JwtAuthenticationProcessingFilter는 AccessToken, RefreshToken 재발급
+ */
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity // Spring Security 설정 활성화
@@ -33,20 +40,38 @@ public class SecurityConfig {
 	private final LoginService loginService;
 	private final MemberRepository memberRepository;
 	private final ObjectMapper objectMapper;
+	private final OAuth2LoginSuccessHandler oauth2LoginSuccessHandler;
+	private final OAuth2LoginFailureHandler oauth2LoginFailureHandler;
+	private final CustomOAuth2UserService customOAuth2UserService;
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
-			.formLogin(form -> form.disable())
-			.httpBasic(basic -> basic.disable())
-			.csrf(csrf -> csrf.disable())
+			.formLogin(form -> form.disable()) // FormLogin 사용 x
+			.httpBasic(basic -> basic.disable()) // httpBasic 사용 x
+			.csrf(csrf -> csrf.disable()) // csrf 보안 사용 x, REST API를 사용하여 인증정보를 저장하지 않고 JWT토큰, OAuth2를 담아서 요청하므로 disable
 			.sessionManagement(session -> session
-					.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.authorizeHttpRequests(auth -> auth
-					.requestMatchers("/", "/login", "/signUp").permitAll()
-					.anyRequest().authenticated())
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 x
+			.authorizeHttpRequests(auth -> auth // URL 별 관리 옵션
+					.requestMatchers("/", "/login", "/signUp", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
+					.anyRequest().authenticated()) // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
 			
-			.addFilterAfter(customJsonUsernamePasswordLoginFilter(), LogoutFilter.class);
+			//== 소셜 로그인 설정 ==//
+			.oauth2Login(oauth2 -> oauth2
+					.successHandler(oauth2LoginSuccessHandler) // 동의하고 계속하기를 눌렀을 때 Handler 설정
+					.failureHandler(oauth2LoginFailureHandler) // 소셜 로그인 실패 시 핸들러 설정
+					.userInfoEndpoint(user -> user.userService(customOAuth2UserService)) // customUserService 설정
+			)
+			
+			.formLogin(login -> login
+					.loginPage("/login")
+					.usernameParameter("email"))
+			
+			// 원래 스프링 시큐리티 필터 순서가 LogoutFilter 이후에 로그인 필터 동작
+			// 따라서, LogoutFilter 이후에 커스텀한 필터가 동작되도록 설정
+			// 순서 : LogoutFilter -> JwtAuthenticationProcessingFilter -> CustomJsonUsernamePasswordAuthenticationFilter
+			.addFilterAfter(customJsonUsernamePasswordLoginFilter(), LogoutFilter.class)
+			.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class)
 			;
 			
 		

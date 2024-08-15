@@ -15,6 +15,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import project.shop.domain.member.repository.MemberRepository;
 @Service
 @RequiredArgsConstructor
 @Setter(value = AccessLevel.PRIVATE)
+@Getter
 @Transactional
 @Slf4j
 public class JwtServiceImpl implements JwtService {

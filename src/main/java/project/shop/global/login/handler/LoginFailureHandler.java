@@ -9,7 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import project.shop.domain.member.exception.MemberException;
 
 /**
  * JWT 로그인 실패 시 처리하는 핸들러
@@ -24,7 +23,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/plain;chrset=UTF-8");
+		response.setContentType("text/plain;charset=UTF-8");
 		response.getWriter().write("로그인 실패! 이메일 혹은 비밀번호를 확인해주세요.");
 		
 		log.info("로그인에 실패했습니다. 메세지: {}", exception.getMessage());
