@@ -26,4 +26,5 @@ public class MemberController {
 	public void signUp(@Valid @RequestBody MemberSignUpDto memberSignUpDto) throws Exception {
 		memberService.signUp(memberSignUpDto);
 	}
+	
 }

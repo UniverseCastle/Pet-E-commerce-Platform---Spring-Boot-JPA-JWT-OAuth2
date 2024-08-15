@@ -28,10 +28,11 @@ public class SecurityConfig {
 			.sessionManagement(session -> session
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
-					.requestMatchers("/", "login", "/signUp").permitAll()
+					.requestMatchers("/", "/login", "/signUp").permitAll()
 					.anyRequest().authenticated())
 			;
 			
+		
 		return http.build();
 	}
 	

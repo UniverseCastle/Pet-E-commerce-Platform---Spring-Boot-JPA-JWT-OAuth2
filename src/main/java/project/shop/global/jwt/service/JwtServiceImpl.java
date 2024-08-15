@@ -61,6 +61,7 @@ public class JwtServiceImpl implements JwtService {
 	private final MemberRepository memberRepository;
 
 	
+	
 	/**
 	 * AccessToken 생성 메서드
 	 */
