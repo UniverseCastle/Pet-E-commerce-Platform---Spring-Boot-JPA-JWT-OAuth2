@@ -8,7 +8,9 @@ import lombok.Getter;
 import project.shop.domain.member.entity.Member;
 import project.shop.domain.member.enums.Role;
 import project.shop.domain.member.enums.SocialType;
+import project.shop.global.oauth2.userinfo.GoogleOAuth2UserInfo;
 import project.shop.global.oauth2.userinfo.KakaoOAuth2UserInfo;
+import project.shop.global.oauth2.userinfo.NaverOAuth2UserInfo;
 import project.shop.global.oauth2.userinfo.OAuth2UserInfo;
 
 /**
@@ -60,14 +62,14 @@ public class OAuthAttributes {
 	private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 		return OAuthAttributes.builder()
 				.nameAttributeKey(userNameAttributeName)
-				.oauth2UserInfo(new KakaoOAuth2UserInfo(attributes))
+				.oauth2UserInfo(new GoogleOAuth2UserInfo(attributes))
 				.build();
 	}
 	
 	private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
 		return OAuthAttributes.builder()
 				.nameAttributeKey(userNameAttributeName)
-				.oauth2UserInfo(new KakaoOAuth2UserInfo(attributes))
+				.oauth2UserInfo(new NaverOAuth2UserInfo(attributes))
 				.build();
 	}
 	

@@ -33,15 +33,17 @@ public class Member extends BaseTimeEntity {
 	private Long id; // PK
 	
 	@Email
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 100, unique = true)
 	private String email; // 이메일
 	
 	private String password; // 비밀번호
 	
-	@Column(nullable = false, length = 30)
+//	@Column(nullable = false, length = 30)
+	@Column(length = 30)
 	private String name; // 이름(실명)
 	
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(length = 30)
+//	@Column(length = 30, unique = true)
 	private String nickName; // 별명
 	
 	@Column

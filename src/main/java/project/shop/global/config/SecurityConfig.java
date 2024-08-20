@@ -12,6 +12,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -47,13 +48,14 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
-			.formLogin(form -> form.disable()) // FormLogin 사용 x
+			.formLogin(formLogin -> formLogin.disable()) // FormLogin 사용 x
 			.httpBasic(basic -> basic.disable()) // httpBasic 사용 x
 			.csrf(csrf -> csrf.disable()) // csrf 보안 사용 x, REST API를 사용하여 인증정보를 저장하지 않고 JWT토큰, OAuth2를 담아서 요청하므로 disable
 			.sessionManagement(session -> session
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 x
 			.authorizeHttpRequests(auth -> auth // URL 별 관리 옵션
-					.requestMatchers("/", "/login", "/signUp", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
+//					.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+					.requestMatchers("/", "/main", "/index.html", "/oauth2/signUp", "/member/signUp", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
 					.anyRequest().authenticated()) // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
 			
 			//== 소셜 로그인 설정 ==//
