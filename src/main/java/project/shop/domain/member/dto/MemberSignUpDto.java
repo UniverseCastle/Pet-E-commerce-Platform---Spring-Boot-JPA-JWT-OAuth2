@@ -2,7 +2,6 @@ package project.shop.domain.member.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -43,12 +42,7 @@ public record MemberSignUpDto(@NotBlank(message = "이름을 입력해주세요.
 							  
 							  @NotBlank(message = "전화번호를 입력해주세요.", groups = NotBlankGroup.class)
 							  @Size(min = 10, max = 11, message = "전화번호는 10자~11자 이내로 입력해주세요.", groups = SizeGroup.class)
-							  String phone
-							  
-//							  @NotNull(message = "나이를 입력해주세요.")
-//							  @Range(min = 0, max = 150)
-//							  Integer age
-							  ) {
+							  String phone) {
 
 	public Member toEntity() {
 		return Member.builder()
@@ -58,7 +52,6 @@ public record MemberSignUpDto(@NotBlank(message = "이름을 입력해주세요.
 				.password(password1)
 				.birth(birth)
 				.phone(phone)
-//				.age(age)
 				.build();
 	}
 }

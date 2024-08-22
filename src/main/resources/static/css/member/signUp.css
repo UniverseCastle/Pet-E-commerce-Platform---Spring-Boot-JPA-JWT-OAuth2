@@ -1,0 +1,18 @@
+/* [회원가입] */
+
+/*== 이름, 닉네임 등 컬럼 헤더 ==*/
+.tbl-signUp th {
+	text-align: left; /* 1행 글씨 왼쪽 정렬 */
+}
+
+/*== 에러 메세지 ==*/
+.tbl-signUp p {
+	font-size: 12px;
+	color: red;
+}
+
+/*== 회원정보 입력 칸, table의 input box ==*/
+.tbl-signUp input {
+	border: 1px solid gray; /* 기본 gray 색상 */
+	outline: none; /* input 테두리 제거 */
+}

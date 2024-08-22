@@ -41,19 +41,14 @@ public class Member extends BaseTimeEntity {
 	
 	private String password; // 비밀번호
 	
-//	@Column(nullable = false, length = 30)
 	@Column(length = 30)
-	private String name; // 이름(실명)
+	private String name; // 이름 (실명)
 	
 	@Column(length = 30)
-//	@Column(length = 30, unique = true)
 	private String nickName; // 별명
 	
 	@Column
 	private String imageUrl; // 프로필 이미지
-	
-//	@Column(length = 30)
-//	private int age; // 나이
 	
 	private LocalDate birth; // 생년월일
 	
@@ -88,10 +83,6 @@ public class Member extends BaseTimeEntity {
 	public void updateNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	
-//	public void updateAge(int age) {
-//		this.age = age;
-//	}
 	
 	
 	

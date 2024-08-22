@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import project.shop.domain.member.dto.MemberSignUpDto;
@@ -52,6 +54,7 @@ public class MemberRestController {
 		
 		// 가입 로직 처리
 		memberService.signUp(memberSignUpDto);
+		
 		return ResponseEntity.ok(Collections.singletonMap("message", "회원가입이 완료되었습니다."));
 	}
 	

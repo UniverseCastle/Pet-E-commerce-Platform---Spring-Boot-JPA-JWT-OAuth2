@@ -39,30 +39,27 @@ public class MemberServiceImpl implements MemberService {
 		member.addUserAuthority(); // entity로 변환 후 USER 권한 부여
 		member.encodePassword(passwordEncoder); // 비밀번호 암호화
 		
-		// 중복검사
+		// 닉네임 중복검사
 		if (memberRepository.findByNickName(memberSignUpDto.nickName()).isPresent()) {
 			throw new MemberException(MemberExceptionType.ALREADY_EXIST_NICKNAME);
 		}
+		// 이메일 중복검사
 		if (memberRepository.findByEmail(memberSignUpDto.email()).isPresent()) {
 			throw new MemberException(MemberExceptionType.ALREADY_EXIST_EMAIL);
 		}
-		
-		if (!isBirthDateValid(memberSignUpDto.birth())) { // 생년월일 범위 검사
+		// 생년월일 범위 검사
+		if (!isBirthDateValid(memberSignUpDto.birth())) {
 			throw new MemberException(MemberExceptionType.BIRTH_DATE_ERROR);
 		}
-		if (!memberSignUpDto.password1().equals(memberSignUpDto.password2())) { // 비밀번호 일치하는지 검사
+		// 두 비밀번호가 일치하는지 검사
+		if (!memberSignUpDto.password1().equals(memberSignUpDto.password2())) {
 			throw new MemberException(MemberExceptionType.PASSWORD_MISMATCH);
 		}
-//		if (!isPhoneValid(memberSignUpDto.phone())) {
-//			throw new MemberException(MemberExceptionType.PHONE_LENGTH_ERROR);
-//		}
 		
 		memberRepository.save(member);
 	}
 	
 	
-	
-	//== 유효성 검사 시작 ==//
 	
 	/**
 	 * [회원가입 생년월일 범위 체크 메서드]
@@ -81,21 +78,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		return age >= 13 && age <= 120;
 	}
-	
-	/**
-	 * [전화번호 길이 범위 체크 메서드]
-	 * 
-	 * @param phone
-	 * 회원가입 시 입력받은 전화번호
-	 * 
-	 * @return
-	 * 10자 이상, 11자 이하 인 경우 true
-	 */
-	private boolean isPhoneValid(String phone) {
-		return phone != null && phone.length() >= 10 && phone.length() <= 11;
-	}
-	
-	//== 유효성 검사 끝 ==//
 	
 	
 	
