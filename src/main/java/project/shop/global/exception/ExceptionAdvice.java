@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import project.shop.domain.member.exception.MemberException;
+import project.shop.domain.member.exception.MemberExceptionType;
 
 /**
  * Filter에서 발생하는 예외는 ControllerAdvice까지 넘어오지 않음
@@ -27,7 +29,7 @@ public class ExceptionAdvice {
 		log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
 		log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
 		
-		return new ResponseEntity<ExceptionDto>(new ExceptionDto(exception.getExceptionType().getErrorCode()),
+		return new ResponseEntity<ExceptionDto>(new ExceptionDto(exception.getExceptionType().getErrorCode(), exception.getMessage()),
 																 exception.getExceptionType().getHttpStatus());
 	}
 	
@@ -36,7 +38,16 @@ public class ExceptionAdvice {
 	public ResponseEntity<ExceptionDto> handlerValidEx(BindException exception) {
 		log.error("@ValidException 발생! {}", exception.getMessage());
 		
-		return new ResponseEntity<ExceptionDto>(new ExceptionDto(2000), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<ExceptionDto>(new ExceptionDto(2000, exception.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+	
+	// 회원가입 시 유효성 검사 예외 발생
+	@ExceptionHandler(MemberException.class)
+	public ResponseEntity<ExceptionDto> handlerMemberEx(MemberException memberException) {
+		log.error("MemberException 발생! {}", memberException.getExceptionType().getErrorMessage());
+		
+		// 커스텀 에러 메세지를 반환 -> html 에서 errors.errorCode === 3000 으로 조건문
+		return new ResponseEntity<ExceptionDto>(new ExceptionDto(3000, memberException.getExceptionType().getErrorMessage()), HttpStatus.BAD_REQUEST);
 	}
 	
 	// HttpMessageNotReadableException => json 파싱 오류
@@ -44,7 +55,7 @@ public class ExceptionAdvice {
 	public ResponseEntity<ExceptionDto> httpMessageNotReadableExceptionEx(HttpMessageNotReadableException exception) {
 		log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage());
 		
-		return new ResponseEntity<ExceptionDto>(new ExceptionDto(3000), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<ExceptionDto>(new ExceptionDto(4000, exception.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 	
 	// 모든 종류의 Exception을 처리하는 핸들러 메서드
@@ -62,5 +73,6 @@ public class ExceptionAdvice {
 	@AllArgsConstructor
 	static class ExceptionDto {
 		private Integer errorCode;
+		private String errorMessage;
 	}
 }

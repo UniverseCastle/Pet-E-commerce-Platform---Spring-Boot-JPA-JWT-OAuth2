@@ -69,18 +69,18 @@ class MemberControllerTest {
 	
 //	회원가입
 //	@Test
-	public void signUp() throws Exception {
-		// given
-		String signUpData = objectMapper.writeValueAsString(new MemberSignUpDto(email, password, name, nickName, age));
-		
-		// when
-		signUp(signUpData);
-		
-		// then
-		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new Exception("회원이 존재하지 않습니다."));
-		
-		assertThat(member.getName()).isEqualTo(name);
-		assertThat(memberRepository.findAll().size()).isEqualTo(1);
-	}
+//	public void signUp() throws Exception {
+//		// given
+//		String signUpData = objectMapper.writeValueAsString(new MemberSignUpDto(email, password, name, nickName, age));
+//		
+//		// when
+//		signUp(signUpData);
+//		
+//		// then
+//		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new Exception("회원이 존재하지 않습니다."));
+//		
+//		assertThat(member.getName()).isEqualTo(name);
+//		assertThat(memberRepository.findAll().size()).isEqualTo(1);
+//	}
 
 }

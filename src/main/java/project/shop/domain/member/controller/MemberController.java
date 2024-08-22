@@ -18,7 +18,13 @@ public class MemberController {
 	
 	@GetMapping("/signUp")
 	public String signUp() {
+		
 		return "member/signUp";
 	}
 	
+	@GetMapping("/oauth2/signUp")
+	public String oauth2SignUp() {
+		
+		return "member/oauth2SignUp";
+	}
 }

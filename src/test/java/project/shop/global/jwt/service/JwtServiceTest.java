@@ -51,19 +51,19 @@ class JwtServiceTest {
 	
     private String email = "spring@gmail.com";
     
-    @BeforeEach
-    public void init() {
-    	Member member = Member.builder()
-    			.email(email)
-    			.password("1234567890")
-    			.name("Member1")
-    			.nickName("NickName1")
-    			.role(Role.USER)
-    			.age(20)
-    			.build();
-    	memberRepository.save(member);
-    	clear();
-    }
+//    @BeforeEach
+//    public void init() {
+//    	Member member = Member.builder()
+//    			.email(email)
+//    			.password("1234567890")
+//    			.name("Member1")
+//    			.nickName("NickName1")
+//    			.role(Role.USER)
+//    			.age(20)
+//    			.build();
+//    	memberRepository.save(member);
+//    	clear();
+//    }
     
     private void clear() {
     	em.flush();

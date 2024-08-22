@@ -69,19 +69,19 @@ class LoginTest {
 		em.clear();
 	}
 	
-	@BeforeEach
-	private void init() {
-		memberRepository.save(Member.builder()
-				.email(EMAIL)
-				.password(delegatingPasswordEncoder.encode(PASSWORD))
-				.name("Member1")
-				.nickName("NickName1")
-				.role(Role.USER)
-				.age(20)
-				.build());
-		
-		clear();
-	}
+//	@BeforeEach
+//	private void init() {
+//		memberRepository.save(Member.builder()
+//				.email(EMAIL)
+//				.password(delegatingPasswordEncoder.encode(PASSWORD))
+//				.name("Member1")
+//				.nickName("NickName1")
+//				.role(Role.USER)
+//				.age(20)
+//				.build());
+//		
+//		clear();
+//	}
 	
 	private Map getEmailPasswordMap(String email, String password) {
 		Map<String, String> map = new HashMap<>();

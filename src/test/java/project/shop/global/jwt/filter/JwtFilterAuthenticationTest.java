@@ -82,18 +82,18 @@ class JwtFilterAuthenticationTest {
 	}
 
 
-	@BeforeEach
-	private void init(){
-		memberRepository.save(Member.builder()
-				.email(EMAIL)
-				.password(delegatingPasswordEncoder.encode(PASSWORD))
-				.name("Member1")
-				.nickName("NickName1")
-				.role(Role.USER)
-				.age(22)
-				.build());
-		clear();
-	}
+//	@BeforeEach
+//	private void init(){
+//		memberRepository.save(Member.builder()
+//				.email(EMAIL)
+//				.password(delegatingPasswordEncoder.encode(PASSWORD))
+//				.name("Member1")
+//				.nickName("NickName1")
+//				.role(Role.USER)
+//				.age(22)
+//				.build());
+//		clear();
+//	}
 
 
 

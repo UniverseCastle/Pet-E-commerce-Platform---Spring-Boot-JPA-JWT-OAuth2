@@ -55,7 +55,7 @@ public class SecurityConfig {
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 x
 			.authorizeHttpRequests(auth -> auth // URL 별 관리 옵션
 //					.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-					.requestMatchers("/", "/main", "/index.html", "/oauth2/signUp", "/member/signUp", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
+					.requestMatchers("/", "/main", "/index.html", "/member/oauth2/signUp", "/member/signUp", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
 					.anyRequest().authenticated()) // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
 			
 			//== 소셜 로그인 설정 ==//

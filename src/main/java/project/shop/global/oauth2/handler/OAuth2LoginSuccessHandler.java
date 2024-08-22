@@ -45,7 +45,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			if (oauth2User.getRole() == Role.GUEST) {
 				String accessToken = jwtService.createAccessToken(oauth2User.getEmail());
 				response.addHeader(jwtServiceImpl.getAccessHeader(), "Bearer " + accessToken);
-				response.sendRedirect("/member/signUp"); // 프론트의 회원가입 추가정보 입력 폼으로 리다이렉트
+				response.sendRedirect("/member/oauth2/signUp"); // 프론트의 회원가입 추가정보 입력 폼으로 리다이렉트
 				
 				jwtService.sendAccessAndRefreshToken(response, accessToken, null);
 				

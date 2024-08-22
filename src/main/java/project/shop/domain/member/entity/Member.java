@@ -1,5 +1,8 @@
 package project.shop.domain.member.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.persistence.Column;
@@ -49,8 +52,15 @@ public class Member extends BaseTimeEntity {
 	@Column
 	private String imageUrl; // 프로필 이미지
 	
-	@Column(nullable = false, length = 30)
-	private int age; // 나이
+//	@Column(length = 30)
+//	private int age; // 나이
+	
+	private LocalDate birth; // 생년월일
+	
+	@Column(length = 11)
+	private String phone; // 전화번호
+	
+	
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 30)
@@ -79,9 +89,9 @@ public class Member extends BaseTimeEntity {
 		this.nickName = nickName;
 	}
 	
-	public void updateAge(int age) {
-		this.age = age;
-	}
+//	public void updateAge(int age) {
+//		this.age = age;
+//	}
 	
 	
 	

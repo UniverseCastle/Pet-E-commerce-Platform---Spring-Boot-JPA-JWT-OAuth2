@@ -10,7 +10,7 @@ public class MemberInfoDto {
 	private final String email;
 	private final String name;
 	private final String nickName;
-	private final Integer age;
+//	private final Integer age;
 	
 	// 기본 생성자 추가
 //    public MemberInfoDto() {
@@ -25,6 +25,6 @@ public class MemberInfoDto {
 		this.email = member.getEmail();
 		this.name = member.getName();
 		this.nickName = member.getNickName();
-		this.age = member.getAge();
+//		this.age = member.getAge();
 	}
 }
