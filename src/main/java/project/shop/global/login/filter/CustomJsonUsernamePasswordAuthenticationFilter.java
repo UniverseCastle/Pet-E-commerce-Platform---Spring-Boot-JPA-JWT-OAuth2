@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-	private static final String DEFAULT_LOGIN_REQUEST_URL = "/login"; // "/login"으로 오는 요청을 처리
+	private static final String DEFAULT_LOGIN_REQUEST_URL = "/member/login"; // "/login"으로 오는 요청을 처리
 	private static final String HTTP_METHOD = "POST"; // 로그인 HTTP 메서드는 POST
 	private static final String CONTENT_TYPE = "application/json"; // Json 타입의 데이터로 오는 로그인 요청만 처리
 	private static final String EMAIL_KEY = "email"; // 회원 로그인 시 이메일 요청 Json Key: "email"

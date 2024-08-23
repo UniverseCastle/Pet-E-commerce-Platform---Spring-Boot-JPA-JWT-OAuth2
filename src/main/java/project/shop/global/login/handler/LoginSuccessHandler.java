@@ -52,4 +52,8 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		
 		return userDetails.getUsername();
 	}
+	
+	// TODO: 예외처리: DB에서 예외가 발생할 수 있으므로 처리하는 로직 구현
+	// TODO: 토큰 서명 및 암호화: JWT를 생성할 때, 비밀 키를 사용하여 서명하고, 가능한 경우 Token을 암호화하여 보안 강화
+	// TODO: access, refresh토큰의 사용: 클라이언트에서 Access 토큰이 만료되었을 때 RefreshToken을 사용하여 새로운 AccessToken 발급받는 로직 구현
 }

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>로그인</title>
+		<script>
+		window.onload = function() {
+		    const loginForm = document.getElementById('loginForm');
+		    const email = document.getElementById('email');
+		    const password = document.getElementById('password');
+
+		    document.getElementById('loginBtn').addEventListener('click', function(event) {
+		        event.preventDefault(); // 기본 제출 동작 방지
+
+		        // 이메일과 비밀번호 값을 가져옵니다.
+		        const emailValue = email.value; // input의 value를 가져옴
+		        const passwordValue = password.value; // input의 value를 가져옴
+
+		        // fetch 요청을 통해 로그인 시도
+		        fetch('/member/login', {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/json'
+		            },
+		            body: JSON.stringify({
+		                email: emailValue, // 이메일 값을 JSON으로 변환
+		                password: passwordValue // 비밀번호 값을 JSON으로 변환
+		            })
+		        })
+		        .then(response => {
+		            if (!response.ok) {
+		                throw new Error('Network response was not ok');
+		            }
+		            return response.json(); // 필요에 따라 응답을 JSON으로 변환
+		        })
+		        .then(data => {
+		            console.log(data); // 서버로부터 받은 데이터 처리
+		            alert('로그인성공');
+		            // 로그인 성공 시 추가적인 처리 로직을 여기에 추가할 수 있습니다.
+		        })
+		        .catch(error => {
+		            console.error('Error:', error); // 에러 처리
+		        });
+		    });
+		};
+		</script>
+	</head>
+	<body>
+		<main>
+			<h2>로그인</h2>
+			<hr>
+			
+			<section>
+				<h2>소셜 로그인</h2>
+				<button>카카오톡 간편 로그인/가입</button>
+			</section>
+			
+			<section>
+				<h2>로그인 정보 입력</h2>
+				<form id="loginForm" action="/member/login" method="post">
+					<table>
+						<caption style="display: none;">회원 로그인 정보</caption>
+						<tbody>
+							<tr>
+								<td>
+									<input id="email" placeholder="이메일" type="text" name="email">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input id="password" placeholder="비밀번호" type="password" name="password">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</section>
+			
+			<section>
+				<h2>회원 찾기/가입</h2>
+				<ul>
+					<li>아이디 찾기</li>
+					<li>비밀번호 찾기</li>
+					<li>회원가입</li>
+				</ul>
+			</section>
+			
+			<button id="loginBtn" type="button">로그인</button><br>
+			<button type="button">네이버 로그인/가입</button>
+		</main>
+	</body>
+</html>

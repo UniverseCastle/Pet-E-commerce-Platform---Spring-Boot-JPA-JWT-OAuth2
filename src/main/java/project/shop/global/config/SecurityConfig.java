@@ -56,7 +56,8 @@ public class SecurityConfig {
 			.authorizeHttpRequests(auth -> auth // URL 별 관리 옵션
 //					.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
 					.requestMatchers("/", "/main", "/index.html", "/member/oauth2/signUp", "/member/signUp", "/member/loginHub",
-									 "/css/**", "/images/**", "/js/**", "/favicon.ico", "/member/guestSearchOrder").permitAll()
+									 "/css/**", "/images/**", "/js/**", "/favicon.ico", "/member/guestSearchOrder",
+									 "/member/login").permitAll()
 					.anyRequest().authenticated()) // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
 			
 			//== 소셜 로그인 설정 ==//

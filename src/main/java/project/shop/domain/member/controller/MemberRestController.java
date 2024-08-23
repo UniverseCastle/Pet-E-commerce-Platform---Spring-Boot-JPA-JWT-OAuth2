@@ -3,9 +3,11 @@ package project.shop.domain.member.controller;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,16 +20,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import project.shop.domain.member.dto.MemberLoginDto;
 import project.shop.domain.member.dto.MemberSignUpDto;
+import project.shop.domain.member.entity.Member;
+import project.shop.domain.member.repository.MemberRepository;
 import project.shop.domain.member.service.MemberService;
 import project.shop.domain.member.util.ValidationSequence;
+import project.shop.global.login.service.LoginService;
 
 @RestController // 문자열을 response의 Body에 작성하여 전속
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberRestController {
 	
+	private final MemberRepository memberRepository;
 	private final MemberService memberService;
+	private final LoginService loginService;
 	
 	
 
@@ -65,5 +73,18 @@ public class MemberRestController {
 	@ResponseStatus(HttpStatus.OK)
 	public void oauthSignUp() {
 		
+	}
+	
+	/**
+	 * 일반 회원 로그인
+	 */
+	@PostMapping("/login")
+	@ResponseStatus(HttpStatus.OK)
+	public void login(@RequestBody MemberLoginDto memberLoginDto) {
+		Optional<Member> omember = memberRepository.findByEmail(memberLoginDto.email());
+		if (omember.isPresent()) {
+			Member member = omember.get();
+			loginService.loadUserByUsername(member.getEmail());
+		}
 	}
 }

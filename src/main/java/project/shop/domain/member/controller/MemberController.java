@@ -44,6 +44,15 @@ public class MemberController {
 	}
 	
 	/**
+	 * 로그인
+	 */
+	@GetMapping("/login")
+	public String login() {
+		
+		return "member/login";
+	}
+	
+	/**
 	 * 비회원 주문 조회
 	 */
 	@GetMapping("/guestSearchOrder")
