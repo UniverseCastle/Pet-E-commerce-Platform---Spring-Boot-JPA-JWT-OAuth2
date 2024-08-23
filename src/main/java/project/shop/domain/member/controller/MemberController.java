@@ -16,15 +16,39 @@ public class MemberController {
 	
 	
 	
+	/**
+	 * 일반 회원가입
+	 */
 	@GetMapping("/signUp")
 	public String signUp() {
 		
 		return "member/signUp";
 	}
 	
+	/**
+	 * 소셜 로그인
+	 */
 	@GetMapping("/oauth2/signUp")
 	public String oauth2SignUp() {
 		
 		return "member/oauth2SignUp";
+	}
+	
+	/**
+	 * 로그인 허브
+	 */
+	@GetMapping("/loginHub")
+	public String loginHub() {
+		
+		return "member/loginHub";
+	}
+	
+	/**
+	 * 비회원 주문 조회
+	 */
+	@GetMapping("/guestSearchOrder")
+	public String guestSearchOrder() {
+		
+		return "member/guestSearchOrder";
 	}
 }

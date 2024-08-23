@@ -55,7 +55,8 @@ public class SecurityConfig {
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 x
 			.authorizeHttpRequests(auth -> auth // URL 별 관리 옵션
 //					.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-					.requestMatchers("/", "/main", "/index.html", "/member/oauth2/signUp", "/member/signUp", "/css/**", "/images/**", "/js/**", "/favicon.ico").permitAll()
+					.requestMatchers("/", "/main", "/index.html", "/member/oauth2/signUp", "/member/signUp", "/member/loginHub",
+									 "/css/**", "/images/**", "/js/**", "/favicon.ico", "/member/guestSearchOrder").permitAll()
 					.anyRequest().authenticated()) // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
 			
 			//== 소셜 로그인 설정 ==//
@@ -65,9 +66,9 @@ public class SecurityConfig {
 					.userInfoEndpoint(user -> user.userService(customOAuth2UserService)) // customUserService 설정
 			)
 			
-			.formLogin(login -> login
-					.loginPage("/login")
-					.usernameParameter("email"))
+//			.formLogin(login -> login
+//					.loginPage("/member/login")
+//					.usernameParameter("email"))
 			
 			// 원래 스프링 시큐리티 필터 순서가 LogoutFilter 이후에 로그인 필터 동작
 			// 따라서, LogoutFilter 이후에 커스텀한 필터가 동작되도록 설정

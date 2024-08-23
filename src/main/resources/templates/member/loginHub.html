@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>로그인</title>
+	</head>
+	<body>
+		<main>
+			<h3>loginHub</h3>
+			<hr>
+			<h3>로그인 방법 선택</h3><br>
+			<section>
+				<h2>▼멤버십 가입 유도▼</h2>
+				<h2>
+					<font style="font-weight: 500;">지금 회원가입하고</font><br>
+					멤버십 전용 혜택을<br>
+					받아보세요!
+				</h2>
+				<hr>
+				<h3>이미지 영역</h3>
+				<hr>
+			</section>
+			
+			<section>
+				<h2>소셜 로그인</h2>
+				<ul>
+					<li>
+						<img onclick="location.href='/oauth2/authorization/google'" src="/images/google.png">
+					</li>
+					<li>
+						<img onclick="location.href='/oauth2/authorization/kakao'" src="/images/kakao.png">
+					</li>
+					<li>
+						<img onclick="location.href='/oauth2/authorization/naver'" src="/images/naver.png">
+					</li>
+				</ul>
+			</section>
+			
+			<section>
+				<h2>비회원 주문 조회</h2>
+				<button onclick="location.href='/member/guestSearchOrder'">비회원 주문 조회</button>
+			</section>
+			
+			<section>
+				<h2>다른 방법으로 로그인</h2>
+				<p>다른 방법으로 로그인 / 가입</p>
+			</section>
+		</main>
+	</body>
+</html>
